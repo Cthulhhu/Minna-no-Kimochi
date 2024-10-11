@@ -33,3 +33,29 @@ header {
     height: 50px;
     width: auto;
 }
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+}
+
+nav ul li {
+    margin-right: 1rem;
+}
+
+nav ul li a {
+    color: var(--text-color);
+    text-decoration: none;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+#theme-toggle {
+    background-color: var(--secondary-color);
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    color: var(--bg-color);
+    font-weight: bold;
+}
