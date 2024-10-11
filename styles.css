@@ -59,3 +59,46 @@ nav ul li a {
     color: var(--bg-color);
     font-weight: bold;
 }
+
+main {
+    padding: 2rem;
+}
+
+section {
+    margin-bottom: 2rem;
+    border: 2px solid var(--primary-color);
+    padding: 1rem;
+    border-radius: 10px;
+}
+
+h1, h2, h3 {
+    color: var(--accent-color);
+    text-shadow: 2px 2px 4px var(--primary-color);
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    max-width: 500px;
+}
+
+label, input, textarea {
+    margin-bottom: 1rem;
+}
+
+input, textarea {
+    padding: 0.5rem;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    border: 1px solid var(--primary-color);
+}
+
+button {
+    background-color: var(--primary-color);
+    color: var(--bg-color);
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    font-weight: bold;
+    text-transform: uppercase;
+}
