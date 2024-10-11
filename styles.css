@@ -1,0 +1,17 @@
+:root {
+    --bg-color: #000000;
+    --text-color: #ffffff;
+    --primary-color: #ff00ff;
+    --secondary-color: #00ffff;
+    --accent-color: #ffff00;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    margin: 0 auto;
+    padding: 0;
+    width: 1280px;
+}
