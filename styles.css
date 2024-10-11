@@ -1,125 +1,467 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+
 :root {
-    --bg-color: #000000;
-    --text-color: #ffffff;
-    --primary-color: #ff00ff;
-    --secondary-color: #00ffff;
-    --accent-color: #ffff00;
+    --bg-dark: #050505;
+    --bg-light: #e0e0e0;
+    --text-dark: #333333;
+    --text-light: #ffffff;
+    --neon-blue: #00ffff;
+    --neon-pink: #ff00ff;
+    --neon-green: #39ff14;
 }
 
 body {
-    font-family: 'Arial', sans-serif;
-    line-height: 1.6;
-    color: var(--text-color);
-    background-color: var(--bg-color);
-    margin: 0 auto;
+    font-family: 'Orbitron', sans-serif;
+    margin: 0;
     padding: 0;
-    width: 1280px;
+    background-color: var(--bg-light);
+    color: var(--text-dark);
+    transition: background-color 0.3s, color 0.3s;
+    line-height: 1.6;
+    
 }
 
-body.light-mode {
-    --bg-color: #ffffff;
-    --text-color: #000000;
+body.dark-mode {
+    background-color: var(--bg-dark);
+    color: var(--text-light);
 }
 
+.container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Header Styles */
 header {
     background-color: rgba(0, 0, 0, 0.8);
-    padding: 1rem;
+    padding: 1rem 0;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+}
+
+header .container {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-#logo {
-    height: 50px;
-    width: auto;
+.glitch {
+    font-size: 2rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    position: relative;
+    color: var(--neon-blue);
+    letter-spacing: 0.1em;
+    animation: glitch 2s infinite;
+}
+
+.glitch::before,
+.glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.glitch::before {
+    left: 2px;
+    text-shadow: -2px 0 var(--neon-pink);
+    clip: rect(44px, 450px, 56px, 0);
+    animation: glitch-anim 5s infinite linear alternate-reverse;
+}
+
+.glitch::after {
+    left: -2px;
+    text-shadow: -2px 0 var(--neon-green);
+    clip: rect(44px, 450px, 56px, 0);
+    animation: glitch-anim2 1s infinite linear alternate-reverse;
+}
+
+@keyframes glitch {
+    2%, 64% {
+        transform: translate(2px,0) skew(0deg);
+    }
+    4%, 60% {
+        transform: translate(-2px,0) skew(0deg);
+    }
+    62% {
+        transform: translate(0,0) skew(5deg); 
+    }
+}
+
+@keyframes glitch-anim {
+  0% {
+    clip: rect(96px, 9999px, 78px, 0);
+  }
+  20% {
+    clip: rect(60px, 9999px, 26px, 0);
+  }
+  40% {
+    clip: rect(48px, 9999px, 2px, 0);
+  }
+  60% {
+    clip: rect(89px, 9999px, 76px, 0);
+  }
+  80% {
+    clip: rect(31px, 9999px, 84px, 0);
+  }
+  100% {
+    clip: rect(15px, 9999px, 34px, 0);
+  }
+}
+
+@keyframes glitch-anim2 {
+  0% {
+    clip: rect(57px, 9999px, 65px, 0);
+  }
+  20% {
+    clip: rect(37px, 9999px, 90px, 0);
+  }
+  40% {
+    clip: rect(56px, 9999px, 14px, 0);
+  }
+  60% {
+    clip: rect(10px, 9999px, 25px, 0);
+  }
+  80% {
+    clip: rect(40px, 9999px, 46px, 0);
+  }
+  100% {
+    clip: rect(1px, 9999px, 41px, 0);
+  }
 }
 
 nav ul {
     list-style-type: none;
-    padding: 0;
     display: flex;
+    gap: 1rem;
 }
 
-nav ul li {
-    margin-right: 1rem;
-}
-
-nav ul li a {
-    color: var(--text-color);
+nav a {
+    color: var(--text-light);
     text-decoration: none;
     font-weight: bold;
     text-transform: uppercase;
+    letter-spacing: 0.1em;
+    transition: color 0.3s;
 }
 
-#theme-toggle {
-    background-color: var(--secondary-color);
-    border: none;
+nav a:hover {
+    color: var(--neon-blue);
+}
+
+/* Button Styles */
+.neon-button {
+    background-color: transparent;
+    color: var(--neon-blue);
+    border: 2px solid var(--neon-blue);
     padding: 0.5rem 1rem;
     cursor: pointer;
-    color: var(--bg-color);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
     font-weight: bold;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
 }
 
-main {
-    padding: 2rem;
+.neon-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        120deg,
+        transparent,
+        rgba(0, 255, 255, 0.4),
+        transparent
+    );
+    transition: all 0.5s;
 }
 
+.neon-button:hover::before {
+    left: 100%;
+}
+
+.neon-button:hover {
+    box-shadow: 0 0 10px var(--neon-blue), 0 0 20px var(--neon-blue), 0 0 40px var(--neon-blue);
+    background-color: var(--neon-blue);
+    color: var(--bg-dark);
+}
+
+/* Section Styles */
 section {
+    margin: 4rem 0;
+    padding: 4rem 0;
+    position: relative;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    text-align: center;
     margin-bottom: 2rem;
-    border: 2px solid var(--primary-color);
-    padding: 1rem;
-    border-radius: 10px;
+    color: var(--neon-pink);
 }
 
-h1, h2, h3 {
-    color: var(--accent-color);
-    text-shadow: 2px 2px 4px var(--primary-color);
-}
-
-form {
+/* Hero Section */
+#hero {
+    height: 100vh;
     display: flex;
     flex-direction: column;
-    max-width: 500px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: url('images/minna-no-kimochi-logo.jpg') no-repeat center center/cover;
+    position: relative;
 }
 
-label, input, textarea {
+#hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+}
+
+#hero * {
+    position: relative;
+    z-index: 1;
+}
+
+.neon-text {
+    font-size: 4rem;
+    color: var(--neon-blue);
+    text-shadow: 
+        0 0 5px var(--neon-blue),
+        0 0 10px var(--neon-blue),
+        0 0 20px var(--neon-blue),
+        0 0 40px var(--neon-blue);
+    animation: pulsate 1.5s infinite alternate;
+}
+
+@keyframes pulsate {
+    100% {
+        text-shadow: 
+        0 0 5px var(--neon-blue),
+        0 0 10px var(--neon-blue),
+        0 0 20px var(--neon-blue),
+        0 0 40px var(--neon-blue),
+        0 0 80px var(--neon-blue);
+    }
+    0% {
+        text-shadow: 
+        0 0 2px var(--neon-blue),
+        0 0 4px var(--neon-blue),
+        0 0 6px var(--neon-blue),
+        0 0 10px var(--neon-blue),
+        0 0 45px var(--neon-blue);
+    }
+}
+
+.hero-text {
+    font-size: 1.2rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Events Section */
+.event-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.event-list li {
+    background: rgba(0, 0, 0, 0.1);
+    margin-bottom: 1rem;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s;
+}
+
+.event-list li:hover {
+    background: rgba(0, 255, 255, 0.1);
+    transform: scale(1.02);
+}
+
+.event-date {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--neon-green);
+}
+
+.event-name {
+    font-size: 1.1rem;
+    color: var(--neon-pink);
+}
+
+/* Products Section */
+#productDisplay {
+    background: rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    border-radius: 10px;
+    margin-bottom: 2rem;
+    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+#productDisplay img {
+    max-width: 200px;
+    height: auto;
+    margin-bottom: 1rem;
+    transition: transform 0.3s;
+}
+
+#productDisplay img:hover {
+    transform: scale(1.1);
+}
+
+#productDisplay h3 {
+    color: var(--neon-pink);
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+#productControls {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+/* Game Section */
+#game {
+    text-align: center;
+}
+
+.neon-input {
+    background-color: rgba(0, 0, 0, 0.1);
+    border: 2px solid var(--neon-blue);
+    color: var(--text-light);
+    padding: 0.5rem;
+    font-size: 1rem;
+    width: 100%;
+    max-width: 300px;
     margin-bottom: 1rem;
 }
 
-input, textarea {
-    padding: 0.5rem;
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    border: 1px solid var(--primary-color);
+.game-result {
+    font-size: 1.2rem;
+    margin-top: 1rem;
+    color: var(--neon-green);
 }
 
-button {
-    background-color: var(--primary-color);
-    color: var(--bg-color);
-    border: none;
-    padding: 0.5rem 1rem;
-    cursor: pointer;
-    font-weight: bold;
-    text-transform: uppercase;
+/* Contact Form */
+#contactForm {
+    max-width: 600px;
+    margin: 0 auto;
 }
 
-footer {
-    background-color: var(--primary-color);
-    color: var(--bg-color);
-    text-align: center;
+#contactForm div {
+    margin-bottom: 1rem;
+}
+
+#contactForm label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--neon-pink);
+}
+
+#contactForm textarea {
+    height: 150px;
+    resize: vertical;
+}
+
+#contactForm input[type="radio"] {
+    margin-right: 0.5rem;
+}
+
+#formResult {
+    margin-top: 2rem;
     padding: 1rem;
-}
-
-#product-display img {
-    max-width: 300px;
-    margin: 10px;
-    border: 2px solid var(--secondary-color);
     border-radius: 5px;
 }
 
-.error {
-    color: red;
-    font-size: 0.9em;
-    margin-top: -0.5rem;
-    margin-bottom: 0.5rem;
+#formResult.success {
+    background-color: rgba(0, 255, 0, 0.1);
+    border: 1px solid var(--neon-green);
+}
+
+#formResult.error {
+    background-color: rgba(255, 0, 0, 0.1);
+    border: 1px solid #ff0000;
+}
+
+/* Footer */
+footer {
+    background-color: rgba(0, 0, 0, 0.8);
+    color: var(--text-light);
+    text-align: center;
+    padding: 1rem 0;
+    position: relative;
+}
+
+footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(to right, var(--neon-blue), var(--neon-pink), var(--neon-green));
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    header .container {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    nav ul {
+        margin-top: 1rem;
+    }
+
+    .neon-text {
+        font-size: 3rem;
+    }
+
+    .section-title {
+        font-size: 2rem;
+    }
+
+    #productControls {
+        flex-direction: column;
+    }
+}
+
+/* Additional Animations */
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+.float {
+    animation: float 6s ease-in-out infinite;
 }

@@ -1,179 +1,137 @@
 "use strict";
 
-// Theme toggle functionality
-const themeToggle = document.getElementById('theme-toggle');
-themeToggle.addEventListener('click', () => {
-    document.body.classList.toggle('light-mode');
-});
+// Product data - Define the details for each product
+const products = {
+    shirt: { name: "Psychedelic Tee", image: "images/minna-no-kimochi-shirt.jpg", description: "Melt minds with our reality-bending tee" },
+    hoodie: { name: "Quantum Hoodie", image: "images/minna-no-kimochi-hoodie.jpg", description: "Wrap yourself in the fabric of spacetime" },
+    cap: { name: "Neural Cap", image: "images/minna-no-kimochi-cap.jpg", description: "Unlock hidden frequencies with our mind-expanding cap" }
+};
 
-// Contact form validation and submission
-const contactForm = document.getElementById('contact-form');
-const formResult = document.getElementById('form-result');
-
-contactForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    if (validateForm()) {
-        const customer = createCustomerObject();
-        displayFormSuccess(customer);
-        contactForm.reset();
-    }
-});
-
-function validateForm() {
-    let isValid = true;
-    const fullName = document.getElementById('full-name');
-    const phone = document.getElementById('phone');
-    const email = document.getElementById('email');
-    const comments = document.getElementById('comments');
-    const contactMethod = document.querySelector('input[name="contact-method"]:checked');
-
-    // Validate full name
-    if (fullName.value.trim() === '') {
-        showError(fullName, 'Full name is required');
-        isValid = false;
-    } else {
-        clearError(fullName);
-    }
-
-    // Validate phone number if it's the preferred contact method
-    if (contactMethod && contactMethod.value === 'phone') {
-        const phoneRegex = /^\d{10}$/;
-        if (!phoneRegex.test(phone.value)) {
-            showError(phone, 'Please enter a valid 10-digit phone number');
-            isValid = false;
-        } else {
-            clearError(phone);
-        }
-    }
-
-    // Validate email if it's the preferred contact method
-    if (contactMethod && contactMethod.value === 'email') {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email.value)) {
-            showError(email, 'Please enter a valid email address');
-            isValid = false;
-        } else {
-            clearError(email);
-        }
-    }
-
-    // Validate comments
-    if (comments.value.trim() === '') {
-        showError(comments, 'Please enter your message');
-        isValid = false;
-    } else {
-        clearError(comments);
-    }
-
-    // Validate contact method selection
-    if (!contactMethod) {
-        showError(document.querySelector('fieldset'), 'Please select a preferred contact method');
-        isValid = false;
-    } else {
-        clearError(document.querySelector('fieldset'));
-    }
-
-    return isValid;
+// Light/Dark mode toggle function
+function toggleDarkMode() {
+    document.body.classList.toggle('dark-mode');
+    // Update button text based on current mode
+    const button = document.getElementById('darkModeToggle');
+    button.textContent = document.body.classList.contains('dark-mode') ? 'Light Mode' : 'Dark Mode';
 }
 
-function showError(element, message) {
-    const errorElement = element.nextElementSibling;
-    if (errorElement && errorElement.classList.contains('error')) {
-        errorElement.textContent = message;
-    } else {
-        const error = document.createElement('div');
-        error.className = 'error';
-        error.textContent = message;
-        element.parentNode.insertBefore(error, element.nextSibling);
-    }
-}
-
-function clearError(element) {
-    const errorElement = element.nextElementSibling;
-    if (errorElement && errorElement.classList.contains('error')) {
-        errorElement.remove();
-    }
-}
-
-function createCustomerObject() {
-    return {
-        fullName: document.getElementById('full-name').value,
-        phone: document.getElementById('phone').value,
-        email: document.getElementById('email').value,
-        comments: document.getElementById('comments').value,
-        contactMethod: document.querySelector('input[name="contact-method"]:checked').value
-    };
-}
-
-function displayFormSuccess(customer) {
-    formResult.innerHTML = `Thank you for your message, ${customer.fullName}! We'll contact you via ${customer.contactMethod}.`;
-}
-
-// Product display functionality
-const products = [
-    { name: "Neon Glow Sticks", image: "images/glow-sticks.jpg", description: "Light up the night with our vibrant glow sticks!" },
-    { name: "LED Rave Glasses", image: "images/rave-glasses.jpg", description: "See the world in a whole new light with our LED rave glasses." },
-    { name: "Minna-no-Kimochi T-Shirt", image: "images/tshirt.jpg", description: "Show your love for Minna-no-Kimochi with our official t-shirt." }
-];
-
-const productDisplay = document.getElementById('product-display');
-let currentProductIndex = 0;
-
-function displayProduct(index) {
-    const product = products[index];
-    productDisplay.innerHTML = `
+// Product display function
+function displayProduct(productId) {
+    // Retrieve the selected product from the products object
+    const product = products[productId];
+    const display = document.getElementById('productDisplay');
+    // Update the product display with the selected product's details
+    display.innerHTML = `
         <h3>${product.name}</h3>
-        <img src="${product.image}" alt="${product.name}">
+        <img src="${product.image}" alt="${product.name}" class="float">
         <p>${product.description}</p>
-        <button onclick="changeProduct('next')">Next Product</button>
     `;
 }
 
-function changeProduct(direction) {
-    if (direction === 'next') {
-        currentProductIndex = (currentProductIndex + 1) % products.length;
-    } else {
-        currentProductIndex = (currentProductIndex - 1 + products.length) % products.length;
-    }
-    displayProduct(currentProductIndex);
-}
-
-// Display the first product by default
-displayProduct(currentProductIndex);
-
-// Guessing game functionality
-const guessInput = document.getElementById('guess-input');
-const guessButton = document.getElementById('guess-button');
-const gameResult = document.getElementById('game-result');
-
-guessButton.addEventListener('click', () => {
-    const userGuess = parseInt(guessInput.value);
+// Guessing game function
+function playGame() {
+    const userGuess = parseInt(document.getElementById('guessInput').value);
     const randomNumber = Math.floor(Math.random() * 10) + 1;
-
+    const resultElement = document.getElementById('gameResult');
+    
+    // Compare user's guess with the random number and display appropriate message
     if (userGuess === randomNumber) {
-        gameResult.textContent = `Congratulations! You guessed the beat ${randomNumber}!`;
+        resultElement.textContent = `You guessed ${userGuess}. The BPM was ${randomNumber}. You're in sync with the universe!`;
     } else {
-        gameResult.textContent = `Sorry, the beat was ${randomNumber}. Try again!`;
+        resultElement.textContent = `You guessed ${userGuess}. The BPM was ${randomNumber}. Realign your chakras and try again!`;
     }
-});
-
-// Event display functionality
-const events = [
-    { name: "Neon Nights", date: "2024-06-15", description: "An electrifying night of neon and beats." },
-    { name: "Bass Drop Festival", date: "2024-07-20", description: "Feel the bass shake your soul." },
-    { name: "Trance Unity", date: "2024-08-10", description: "Unite under the hypnotic sounds of trance." }
-];
-
-const eventDisplay = document.getElementById('event-display');
-
-function displayEvents() {
-    eventDisplay.innerHTML = events.map(event => `
-        <div class="event">
-            <h3>${event.name}</h3>
-            <p>Date: ${event.date}</p>
-            <p>${event.description}</p>
-        </div>
-    `).join('');
 }
 
-displayEvents();
+// Form validation function
+function validateForm(event) {
+    event.preventDefault();
+    
+    // Retrieve form input values
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const phone = document.getElementById('phone').value;
+    const comments = document.getElementById('comments').value;
+    const contactMethod = document.querySelector('input[name="contactMethod"]:checked');
+    
+    let isValid = true;
+    let errorMessages = [];
+
+    // Validate required fields
+    if (!name) {
+        isValid = false;
+        errorMessages.push("Cosmic Identity is required");
+    }
+
+    if (!comments) {
+        isValid = false;
+        errorMessages.push("Your thoughts are required");
+    }
+
+    if (!contactMethod) {
+        isValid = false;
+        errorMessages.push("Please select a preferred wavelength");
+    } else if (contactMethod.value === 'email' && !validateEmail(email)) {
+        isValid = false;
+        errorMessages.push("Please enter a valid astral email address");
+    } else if (contactMethod.value === 'phone' && !validatePhone(phone)) {
+        isValid = false;
+        errorMessages.push("Please enter a valid telepathic number");
+    }
+
+    // If form is valid, display success message and reset form. Otherwise, show errors.
+    if (isValid) {
+        const formData = { name, email, phone, comments, preferredContact: contactMethod.value };
+        displayFormSuccess(formData);
+        event.target.reset();
+    } else {
+        displayFormErrors(errorMessages);
+    }
+}
+
+// Email validation helper function
+function validateEmail(email) {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
+}
+
+// Phone validation helper function
+function validatePhone(phone) {
+    const re = /^\d{10}$/;
+    return re.test(phone);
+}
+
+// Function to display form submission success message
+function displayFormSuccess(data) {
+    const resultElement = document.getElementById('formResult');
+    resultElement.innerHTML = `
+        <h3>Your thoughts have been transmitted to the cosmos!</h3>
+        <p>Cosmic Identity: ${data.name}</p>
+        <p>Astral Email: ${data.email}</p>
+        <p>Telepathic Number: ${data.phone}</p>
+        <p>Thoughts: ${data.comments}</p>
+        <p>Preferred Wavelength: ${data.preferredContact}</p>
+    `;
+    resultElement.className = 'success';
+}
+
+// Function to display form validation errors
+function displayFormErrors(errors) {
+    const resultElement = document.getElementById('formResult');
+    resultElement.innerHTML = `
+        <h3>Your transmission was interrupted. Please realign:</h3>
+        <ul>
+            ${errors.map(error => `<li>${error}</li>`).join('')}
+        </ul>
+    `;
+    resultElement.className = 'error';
+}
+
+// Event listeners - Set up when the DOM is fully loaded
+document.addEventListener('DOMContentLoaded', () => {
+    // Set up dark mode toggle
+    document.getElementById('darkModeToggle').addEventListener('click', toggleDarkMode);
+    // Set up form submission handler
+    document.getElementById('contactForm').addEventListener('submit', validateForm);
+    // Display default product
+    displayProduct('shirt');
+});
