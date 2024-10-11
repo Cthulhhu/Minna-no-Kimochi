@@ -31,7 +31,7 @@
             <h2>About Us</h2>
             <p>Minna-no-Kimochi is a premier rave group dedicated to creating unforgettable electronic music experiences. Our mission is to bring people together through the universal language of music and dance, creating a space where everyone's feelings can be expressed freely.</p>
         </section>
-        
+
         <section id="events">
             <h2>Upcoming Events</h2>
             <div id="event-display"></div>
@@ -49,3 +49,34 @@
             <button id="guess-button">Guess</button>
             <p id="game-result"></p>
         </section>
+
+        <section id="contact">
+            <h2>Contact Us</h2>
+            <form id="contact-form">
+                <label for="full-name">Full Name:</label>
+                <input type="text" id="full-name" name="full-name" required>
+
+                <label for="phone">Phone Number:</label>
+                <input type="tel" id="phone" name="phone">
+
+                <label for="email">Email Address:</label>
+                <input type="email" id="email" name="email">
+
+                <label for="comments">Message:</label>
+                <textarea id="comments" name="comments" required></textarea>
+
+                <fieldset>
+                    <legend>Preferred Contact Method:</legend>
+                    <label>
+                        <input type="radio" name="contact-method" value="phone"> Phone
+                    </label>
+                    <label>
+                        <input type="radio" name="contact-method" value="email"> Email
+                    </label>
+                </fieldset>
+
+                <button type="submit">Send Message</button>
+            </form>
+            <div id="form-result"></div>
+        </section>
+    </main>
